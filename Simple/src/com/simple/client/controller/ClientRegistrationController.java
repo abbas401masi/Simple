@@ -63,13 +63,13 @@ public class ClientRegistrationController extends HttpServlet {
 			try {
 				MimeMessage message = new MimeMessage(session);
 				message.setFrom(new InternetAddress(email));
-				message.addRecipient(Message.RecipientType.TO,
-						new InternetAddress(request.getParameter(customer.getEmail())));
+				message.addRecipient(Message.RecipientType.TO, new InternetAddress(customer.getEmail()));
 				message.setSubject("Verification Code");
 				message.setText("hi... Your verification code is...   " + rnd);
 
 				// send the message
 				Transport.send(message);
+				customerService.insert(customer);
 				response.sendRedirect("codeverification.jsp");
 			} catch (Exception e) {
 				e.printStackTrace();
